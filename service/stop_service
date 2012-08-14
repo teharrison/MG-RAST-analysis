@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SERVICE=analysis_book
+SERVICE_DIR=/kb/deployment/services/$SERVICE
+
+if [ ! -f $SERVICE_DIR/service.pid ]; then
+   echo "No pid file $SERVICE_DIR/service.pid found for service $SERVICE" 1>&2
+   exit 1
+fi
+
+PID=`cat $SERVICE_DIR/service.pid`
+kill $PID
