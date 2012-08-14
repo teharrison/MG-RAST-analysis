@@ -7,6 +7,8 @@ all:
 deploy: deploy-services
 
 deploy-services:
+	git submodule init
+	git submodule update
 	cd ipy-qmqc
 	python ./setup.py install
 	cd ..
