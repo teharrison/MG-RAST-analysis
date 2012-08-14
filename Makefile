@@ -9,9 +9,7 @@ deploy: deploy-services
 deploy-services:
 	git submodule init
 	git submodule update
-	cd ipy-qmqc
-	python ./setup.py install
-	cd ..
+	cd ipy-qmqc; python ./setup.py install
 	R CMD BATCH install-matr.R
 	mkdir -p $(SERVICE_DIR)/doc
 	cp matR/README $(SERVICE_DIR)/doc/matR.README
