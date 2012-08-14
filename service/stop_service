@@ -10,3 +10,4 @@ fi
 
 PID=`cat $SERVICE_DIR/service.pid`
 kill $PID
+rm $SERVICE_DIR/service.pid
