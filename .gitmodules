@@ -1,3 +1,6 @@
 [submodule "matR"]
 	path = matR
 	url = git://github.com/MG-RAST/matR.git
+[submodule "ipy-qmqc"]
+	path = ipy-qmqc
+	url = git://github.com/teharrison/ipy-qmqc.git
