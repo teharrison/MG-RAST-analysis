@@ -5,6 +5,7 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 all:
 	git submodule init
 	git submodule update
+	useradd -m ipython
 
 deploy: deploy-services
 
@@ -21,3 +22,4 @@ deploy-services:
 	cp service/stop_service $(SERVICE_DIR)/stop_service
 	chmod +x $(SERVICE_DIR)/start_service
 	chmod +x $(SERVICE_DIR)/stop_service
+	chmod 777 $(SERVICE_DIR)/notebook
