@@ -8,5 +8,5 @@ su - $IPY_USER
 export R_HOME=/usr/lib/R/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$R_HOME/lib
 
-nohup ipython notebook --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=8888 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c "import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyTools import *; ro.r('library (matR)')" > $SERVICE_DIR/log/start-ipython.log 2>&1 &
+nohup ipython notebook --user=$IPY_USER --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=8888 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c "import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyTools import *; ro.r('library (matR)')" > $SERVICE_DIR/log/start-ipython.log 2>&1 &
 echo $! > $SERVICE_DIR/service.pid
