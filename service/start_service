@@ -6,6 +6,4 @@ KB_BIN=/kb/runtime/bin
 IPY_USER=ipython
 IPY_PATH=`which ipython`
 
-IPY_CMD="$IPY_PATH notebook --user=$IPY_USER --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=7051 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c \"import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyTools import *; ro.r('library (matR)')\""
-
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/lib/R/ -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$R_HOME/lib -E PATH=$KB_BIN:$PATH $IPY_CMD
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/lib/R/ -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$R_HOME/lib -E PATH=$KB_BIN:$PATH $IPY_PATH notebook --user=$IPY_USER --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=7051 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c "import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyTools import *; ro.r('library (matR)')"
