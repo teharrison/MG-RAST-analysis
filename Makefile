@@ -16,10 +16,12 @@ deploy-services:
 	mkdir -p $(SERVICE_DIR)/ipython
 	mkdir -p $(SERVICE_DIR)/notebook
 	mkdir -p $(SERVICE_DIR)/doc
+	chmod 777 $(SERVICE_DIR)/log
+	chmod 777 $(SERVICE_DIR)/ipython
+	chmod 777 $(SERVICE_DIR)/notebook
 	cp matR/README $(SERVICE_DIR)/doc/matR.README
 	cp ipy-qmqc/README.md $(SERVICE_DIR)/doc/ipy-qmqc.README
 	cp service/start_service $(SERVICE_DIR)/start_service
 	cp service/stop_service $(SERVICE_DIR)/stop_service
 	chmod +x $(SERVICE_DIR)/start_service
 	chmod +x $(SERVICE_DIR)/stop_service
-	chmod 777 $(SERVICE_DIR)/notebook
