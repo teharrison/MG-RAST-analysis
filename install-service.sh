@@ -19,8 +19,10 @@ popd
 # setup services
 mkdir -p $SERVICE_DIR/ipython
 mkdir -p $SERVICE_DIR/notebook
+mkdir -p $SERVICE_DIR/log
 chown $SERVICE_USR $SERVICE_DIR/ipython
 chown $SERVICE_USR $SERVICE_DIR/notebook
+chown $SERVICE_USR $SERVICE_DIR/log
 cp service/start_service $SERVICE_DIR/start_service
 cp service/stop_service $SERVICE_DIR/stop_service
 chmod +x $SERVICE_DIR/start_service
