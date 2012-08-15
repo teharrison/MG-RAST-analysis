@@ -18,9 +18,9 @@ popd
 
 # setup services
 mkdir -p $SERVICE_DIR
-mkdir -m 777 $SERVICE_DIR/ipython
-mkdir -m 777 $SERVICE_DIR/notebook
-mkdir -m 777 $SERVICE_DIR/log
+mkdir $SERVICE_DIR/ipython
+mkdir $SERVICE_DIR/notebook
+mkdir $SERVICE_DIR/log
 chown ${SERVICE_USR}:${SERVICE_USR} $SERVICE_DIR/ipython
 chown ${SERVICE_USR}:${SERVICE_USR} $SERVICE_DIR/notebook
 chown ${SERVICE_USR}:${SERVICE_USR} $SERVICE_DIR/log
