@@ -15,5 +15,6 @@ deploy-services:
 	R CMD BATCH install-matr.R
 	./install-service.sh $(SERVICE_DIR) $(IPY_USER)
 	mkdir $(SERVICE_DIR)/doc
+	cp -R doc/* $(SERVICE_DIR)/doc/.
 	cp matR/README $(SERVICE_DIR)/doc/matR.README
 	cp ipy-qmqc/README.md $(SERVICE_DIR)/doc/ipy-qmqc.README
