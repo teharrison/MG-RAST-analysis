@@ -4,13 +4,13 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 IPY_USER = ipython
 
 all: deploy
-	git submodule init
-	git submodule update
-	useradd -m -s /bin/rbash $(IPY_USER)
 
 deploy: deploy-services
 
 deploy-services:
+	git submodule init
+	git submodule update
+	useradd -m -s /bin/rbash $(IPY_USER)
 	cd ipy-qmqc; python ./setup.py install
 	R CMD BATCH install-matr.R
 	./install-service.sh $(SERVICE_DIR) $(IPY_USER)
