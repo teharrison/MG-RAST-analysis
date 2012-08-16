@@ -1,13 +1,14 @@
 #!/bin/bash
 
 SERVICE=analysis_book
-SERVICE_DIR=/kb/deployment/services/$SERVICE
+DEPLOY_DIR=/kb/deployment
+SERVICE_DIR=$DEPLOY_DIR/services/$SERVICE
 KB_BIN=/kb/runtime/bin
 IPY_USER=ipython
 IPY_PATH=`which ipython`
 
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
-PATH=$KB_BIN:$PATH
+PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH
 
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$PATH $IPY_PATH notebook --user=$IPY_USER --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=7051 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c "import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyQMQC.ipyTools import *; ro.r('library (matR)')"
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH $IPY_PATH notebook --user=$IPY_USER --NotebookApp.password=sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9 --pylab=inline --no-browser --port=7051 --ip=* --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook -c "import rpy2.robjects as ro; from IPython.core.display import Image; import pylab; from ipyQMQC import *; from ipyQMQC.ipyTools import *; ro.r('library (matR)')"
