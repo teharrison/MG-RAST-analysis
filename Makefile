@@ -3,7 +3,7 @@ SERVICE = analysis_book
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 IPY_USER = ipython
 
-all:
+all: deploy
 	git submodule init
 	git submodule update
 	useradd -m -s /bin/rbash $(IPY_USER)
