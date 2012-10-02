@@ -10,6 +10,7 @@ deploy: deploy-services
 deploy-services:
 	git submodule init
 	git submodule update
+	userdel -r -f $(IPY_USER)
 	useradd -m -s /bin/rbash $(IPY_USER)
 	cd ipy-qmqc; python ./setup.py install
 	R CMD BATCH install-matr.R
