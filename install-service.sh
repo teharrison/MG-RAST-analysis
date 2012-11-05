@@ -8,14 +8,6 @@ fi
 SERVICE_DIR=$1
 SERVICE_USR=$2
 
-# download and install daemonize
-git clone git://github.com/bmc/daemonize.git
-pushd daemonize
-./configure
-make
-make install
-popd
-
 # setup services
 mkdir -p $SERVICE_DIR
 mkdir $SERVICE_DIR/ipython
