@@ -7,7 +7,7 @@ HAS_USER := $(shell grep -c '^$(IPY_USER):' /etc/passwd)
 all:
 	git submodule init
 	git submodule update
-	cd ipy-qmqc; git pull; python ./setup.py install
+	cd ipy-qmqc; git pull origin master; python ./setup.py install
 	if [ $(HAS_USER) -eq 0 ]; then useradd -m -s /bin/rbash $(IPY_USER); fi
 	./install-dependencies.sh $(SERVICE_DIR) $(IPY_USER)
 
