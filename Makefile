@@ -30,6 +30,7 @@ deploy: deploy-client deploy-server
 deploy-libs: build-libs add-user
 	mkdir -p $(SERVICE_DIR)/notebook
 	mkdir $(SERVICE_DIR)/notebook/images
+	mkdir $(SERVICE_DIR)/notebook/tmp
 	mkdir $(SERVICE_DIR)/notebook/lib
 	cp ipy-qmqc/R/* $(SERVICE_DIR)/notebook/lib/.
 
