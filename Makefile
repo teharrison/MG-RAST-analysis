@@ -47,9 +47,9 @@ deploy-scripts:
 deploy-server: deploy-libs deploy-scripts deploy-docs
 	mkdir -p $(SERVICE_DIR)/ipython
 	mkdir -p $(SERVICE_DIR)/log
-	chown -R $(IPY_USER):$(IPY_USER) $SERVICE_DIR/ipython
-	chown -R $(IPY_USER):$(IPY_USER) $SERVICE_DIR/notebook
-	chown -R $(IPY_USER):$(IPY_USER) $SERVICE_DIR/log
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/ipython
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/notebook
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/log
 
 deploy-docs:
 	mkdir -p $(DOC_DIR)
