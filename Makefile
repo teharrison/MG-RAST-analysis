@@ -17,7 +17,7 @@ build: build-client build-server
 build-libs:
 	git submodule init
 	git submodule update
-	cd ipy-qmqc; git pull origin master; python ./setup.py install
+	cd ipy-mkmq; git pull origin master; python ./setup.py install
 	./install-dependencies.sh
 
 build-client:
