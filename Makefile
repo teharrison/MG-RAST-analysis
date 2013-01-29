@@ -17,7 +17,7 @@ build: build-client build-server
 
 build-libs:
 	echo "building server libs ..."
-	pip uninstall ipython
+	./clean-ipython.sh
 	git submodule init
 	git submodule update
 	cd ipython; git pull origin master; python ./setup.py install
