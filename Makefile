@@ -20,8 +20,8 @@ build-libs:
 	pip uninstall ipython
 	git submodule init
 	git submodule update
-	cd ipy-mkmq; git pull origin master; python ./setup.py install
 	cd ipython; git pull origin master; python ./setup.py install
+	cd ipy-mkmq; git pull origin master; python ./setup.py install
 	./install-dependencies.sh
 
 build-client:
