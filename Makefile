@@ -10,11 +10,13 @@ default:
 	echo "everything look good?"
 
 add-user:
+	echo "adding user $(IPY_USER) ..."
 	if [ $(HAS_USER) -eq 0 ]; then useradd -m -s /bin/rbash $(IPY_USER); fi
 
 build: build-client build-server
 
 build-libs:
+	echo "building server libs ..."
 	pip uninstall ipython
 	git submodule init
 	git submodule update
@@ -29,7 +31,8 @@ build-server: build-libs add-user
 
 deploy: deploy-client deploy-server
 
-deploy-libs: build-libs add-user
+deploy-libs:
+	echo "deploying server libs ..."
 	mkdir -p $(SERVICE_DIR)/notebook
 	mkdir $(SERVICE_DIR)/notebook/images
 	mkdir $(SERVICE_DIR)/notebook/tmp
@@ -37,17 +40,19 @@ deploy-libs: build-libs add-user
 	mkdir $(SERVICE_DIR)/notebook/cache
 	cp ipy-qmqc/R/* $(SERVICE_DIR)/notebook/lib/.
 
-deploy-client:
-	echo "No client to install"
+deploy-client: build-client
+	echo "No client to deploy"
 
 deploy-scripts:
+	echo "deploying server scripts ..."
 	mkdir -p $(SERVICE_DIR)
 	cp service/start_service $(SERVICE_DIR)/start_service
 	cp service/stop_service $(SERVICE_DIR)/stop_service
 	chmod +x $(SERVICE_DIR)/start_service
 	chmod +x $(SERVICE_DIR)/stop_service
 
-deploy-server: deploy-libs deploy-scripts deploy-docs
+deploy-server: build-server deploy-libs deploy-scripts deploy-docs
+	echo "deploying service ..."
 	mkdir -p $(SERVICE_DIR)/ipython
 	mkdir -p $(SERVICE_DIR)/log
 	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/ipython
@@ -55,6 +60,7 @@ deploy-server: deploy-libs deploy-scripts deploy-docs
 	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/log
 
 deploy-docs:
+	echo "deploying docs ..."
 	mkdir -p $(DOC_DIR)
 	cp -R doc/* $(DOC_DIR)/.
 	cp ipy-qmqc/README.md $(DOC_DIR)/ipy-qmqc.README
