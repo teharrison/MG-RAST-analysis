@@ -34,10 +34,10 @@ deploy: deploy-client deploy-server
 deploy-libs:
 	echo "deploying server libs ..."
 	mkdir -p $(SERVICE_DIR)/notebook
-	mkdir $(SERVICE_DIR)/notebook/images
-	mkdir $(SERVICE_DIR)/notebook/tmp
-	mkdir $(SERVICE_DIR)/notebook/lib
-	mkdir $(SERVICE_DIR)/notebook/cache
+	mkdir -p $(SERVICE_DIR)/notebook/images
+	mkdir -p $(SERVICE_DIR)/notebook/tmp
+	mkdir -p $(SERVICE_DIR)/notebook/lib
+	mkdir -p $(SERVICE_DIR)/notebook/cache
 	cp ipy-mkmq/R/* $(SERVICE_DIR)/notebook/lib/.
 
 deploy-client: build-client
