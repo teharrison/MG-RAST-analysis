@@ -38,7 +38,7 @@ deploy-libs:
 	mkdir $(SERVICE_DIR)/notebook/tmp
 	mkdir $(SERVICE_DIR)/notebook/lib
 	mkdir $(SERVICE_DIR)/notebook/cache
-	cp ipy-qmqc/R/* $(SERVICE_DIR)/notebook/lib/.
+	cp ipy-mkmq/R/* $(SERVICE_DIR)/notebook/lib/.
 
 deploy-client: build-client
 	echo "No client to deploy"
@@ -63,7 +63,7 @@ deploy-docs:
 	echo "deploying docs ..."
 	mkdir -p $(DOC_DIR)
 	cp -R doc/* $(DOC_DIR)/.
-	cp ipy-qmqc/README.md $(DOC_DIR)/ipy-qmqc.README
+	cp ipy-mkmq/README.md $(DOC_DIR)/ipy-mkmq.README
 
 test: test-server test-scripts test-client
 
