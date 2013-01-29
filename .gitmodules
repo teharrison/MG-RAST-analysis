@@ -1,3 +1,6 @@
 [submodule "ipy-mkmq"]
 	path = ipy-mkmq
 	url = git://github.com/MG-RAST/ipy-mkmq.git
+[submodule "ipython"]
+	path = ipython
+	url = git://github.com/teharrison/ipython.git
