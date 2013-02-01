@@ -2,11 +2,10 @@
 
 SHOCK_USER='public'
 SHOCK_URL='http://140.221.84.125:8000'
-SHA1_PWD='sha1:cd7e6fe1c38f:42900becfb8c7ffc51029e110168673dc1bb61c9'
 
 if [ -n "$1" ]; then
     if [[ "$1" == *"-h"* ]]; then
-        echo "Usage: start_service SHOCK_USER SHOCK_URL SHA1_PWD"
+        echo "Usage: start_service SHOCK_USER SHOCK_URL"
         exit
     else
         SHOCK_USER=$1
@@ -14,9 +13,6 @@ if [ -n "$1" ]; then
 fi
 if [ -n "$2" ]; then
     SHOCK_URL=$2
-fi
-if [ -n "$3" ]; then
-    SHA1_PWD=$3
 fi
         
 SERVICE=analysis_book
@@ -31,4 +27,4 @@ LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH
 PRE_PYTHON="import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile"
 
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH $IPY_PATH notebook --user=$IPY_USER --NotebookApp.password=$SHA1_PWD --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True --NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_URL --ShockNotebookManager.shock_user=$SHOCK_USER -c "${PRE_PYTHON}"
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True --NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_URL --ShockNotebookManager.shock_user=$SHOCK_USER -c "${PRE_PYTHON}"

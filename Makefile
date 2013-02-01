@@ -9,27 +9,52 @@ HAS_USER := $(shell grep -c '^$(IPY_USER):' /etc/passwd)
 default:
 	echo "everything look good?"
 
-add-user:
-	echo "adding user $(IPY_USER) ..."
-	if [ $(HAS_USER) -eq 0 ]; then useradd -m -s /bin/rbash $(IPY_USER); fi
-
 build: build-client build-server
+
+build-client:
+	echo "building client libs ..."
+	git submodule init Retina
+	git submodule update Retina
+
+build-server: build-libs add-user
 
 build-libs:
 	echo "building server libs ..."
 	./clean-ipython.sh
-	git submodule init
-	git submodule update
+	git submodule init ipython
+	git submodule update ipython
 	cd ipython; git pull origin master; python ./setup.py install
+	git submodule init ipy-mkmq
+	git submodule update ipy-mkmq
 	cd ipy-mkmq; git pull origin master; python ./setup.py install
 	./install-dependencies.sh
 
-build-client:
-	echo "No client to build"
-
-build-server: build-libs add-user
+add-user:
+	echo "adding user $(IPY_USER) ..."
+	if [ $(HAS_USER) -eq 0 ]; then useradd -m -s /bin/rbash $(IPY_USER); fi
 
 deploy: deploy-client deploy-server
+
+deploy-client: build-client
+	echo "deploying client ..."
+	mkdir -p $(SERVICE_DIR)/www
+	cp Retina/nb_dashboard.html $(SERVICE_DIR)/www/index.html
+	cp -R Retina/css $(SERVICE_DIR)/www/.
+	cp -R Retina/images $(SERVICE_DIR)/www/.
+	cp -R Retina/js $(SERVICE_DIR)/www/.
+	cp -R Retina/renderers $(SERVICE_DIR)/www/.
+	cp -R Retina/widgets $(SERVICE_DIR)/www/.
+	cp Retina/nginx.cfg /etc/nginx/sites-available/default
+	echo "restarting nginx ..."
+	/etc/init.d/nginx restart
+
+deploy-server: build-server deploy-libs deploy-scripts deploy-docs
+	echo "deploying service ..."
+	mkdir -p $(SERVICE_DIR)/ipython
+	mkdir -p $(SERVICE_DIR)/log
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/ipython
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/notebook
+	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/log
 
 deploy-libs:
 	echo "deploying server libs ..."
@@ -40,9 +65,6 @@ deploy-libs:
 	mkdir -p $(SERVICE_DIR)/notebook/cache
 	cp ipy-mkmq/R/* $(SERVICE_DIR)/notebook/lib/.
 
-deploy-client: build-client
-	echo "No client to deploy"
-
 deploy-scripts:
 	echo "deploying server scripts ..."
 	mkdir -p $(SERVICE_DIR)
@@ -50,14 +72,6 @@ deploy-scripts:
 	cp service/stop_service $(SERVICE_DIR)/stop_service
 	chmod +x $(SERVICE_DIR)/start_service
 	chmod +x $(SERVICE_DIR)/stop_service
-
-deploy-server: build-server deploy-libs deploy-scripts deploy-docs
-	echo "deploying service ..."
-	mkdir -p $(SERVICE_DIR)/ipython
-	mkdir -p $(SERVICE_DIR)/log
-	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/ipython
-	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/notebook
-	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/log
 
 deploy-docs:
 	echo "deploying docs ..."
@@ -68,7 +82,7 @@ deploy-docs:
 test: test-server test-scripts test-client
 
 test-client:
-	echo "No client to test"
+	echo "No client testt exists"
 
 test-scripts:
 	echo "No scripts to test"
