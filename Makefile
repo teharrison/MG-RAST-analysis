@@ -15,6 +15,7 @@ build-client:
 	echo "building client libs ..."
 	git submodule init Retina
 	git submodule update Retina
+	cd Retina; git pull origin master
 
 build-server: build-libs add-user
 
