@@ -48,6 +48,7 @@ deploy-client: build-client
 	cp nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
+	/etc/init.d/nginx force-reload
 
 deploy-server: build-server deploy-libs deploy-scripts deploy-docs
 	echo "deploying service ..."
