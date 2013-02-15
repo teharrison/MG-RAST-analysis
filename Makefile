@@ -39,12 +39,17 @@ deploy: deploy-client deploy-server
 deploy-client: build-client
 	echo "deploying client ..."
 	mkdir -p $(SERVICE_DIR)/www
-	cp Retina/nb_dashboard.html $(SERVICE_DIR)/www/index.html
+	cp Retina/communities.html $(SERVICE_DIR)/www/.
+	cp Retina/nb_dashboard.html $(SERVICE_DIR)/www/.
+	cp Retina/mgoverview.html $(SERVICE_DIR)/www/.
+	cp Retina/kegg.html $(SERVICE_DIR)/www/.
+	cp Retina/wizard.html $(SERVICE_DIR)/www/.
 	cp -R Retina/css $(SERVICE_DIR)/www/.
 	cp -R Retina/images $(SERVICE_DIR)/www/.
 	cp -R Retina/js $(SERVICE_DIR)/www/.
 	cp -R Retina/renderers $(SERVICE_DIR)/www/.
 	cp -R Retina/widgets $(SERVICE_DIR)/www/.
+	ln -s $(SERVICE_DIR)/www/nb_dashboard.html $(SERVICE_DIR)/www/index.html
 	cp nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
