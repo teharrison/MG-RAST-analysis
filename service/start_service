@@ -25,7 +25,7 @@ IPY_PATH=`which ipython`
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH
-PRE_PYTHON="import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import Plant"
+PRE_PYTHON="import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant"
 SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_URL --ShockNotebookManager.shock_user=$SHOCK_USER"
 
 if [[ $SHOCK_URL == *"local"* ]]; then
