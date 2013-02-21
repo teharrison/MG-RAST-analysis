@@ -48,6 +48,8 @@ deploy-client: build-client
 	cp Retina/mgoverview.html $(SERVICE_DIR)/www/.
 	cp Retina/wizard.html $(SERVICE_DIR)/www/.
 	cp -R Retina/css $(SERVICE_DIR)/www/.
+	cp -R Retina/data $(SERVICE_DIR)/www/.
+	cp -R Retina/fonts $(SERVICE_DIR)/www/.
 	cp -R Retina/images $(SERVICE_DIR)/www/.
 	cp -R Retina/js $(SERVICE_DIR)/www/.
 	cp -R Retina/renderers $(SERVICE_DIR)/www/.
@@ -74,6 +76,7 @@ deploy-libs:
 	mkdir -p $(SERVICE_DIR)/notebook/lib
 	mkdir -p $(SERVICE_DIR)/notebook/cache
 	cp ipy-mkmq/R/* $(SERVICE_DIR)/notebook/lib/.
+	cp ipy_Rprofile $(SERVICE_DIR)/notebook/.Rprofile
 
 deploy-scripts:
 	echo "deploying server scripts ..."
