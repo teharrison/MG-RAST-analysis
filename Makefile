@@ -76,7 +76,6 @@ deploy-libs:
 	mkdir -p $(SERVICE_DIR)/notebook/lib
 	mkdir -p $(SERVICE_DIR)/notebook/cache
 	cp ipy-mkmq/R/* $(SERVICE_DIR)/notebook/lib/.
-	cp ipy_Rprofile $(SERVICE_DIR)/notebook/.Rprofile
 
 deploy-scripts:
 	echo "deploying server scripts ..."

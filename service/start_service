@@ -23,7 +23,6 @@ IPY_USER=ipython
 IPY_PATH=`which ipython`
 
 R_HOME=/usr/local/lib/R
-R_PROFILE_USER=$SERVICE_DIR/notebook/.Rprofile
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH
 PRE_PYTHON="import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant"
@@ -33,4 +32,4 @@ if [[ $SHOCK_URL == *"local"* ]]; then
     SHOCK_CONFIG=""
 fi
 
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E R_PROFILE_USER=$SERVICE_DIR/notebook/.Rprofile -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=/usr/local/lib/R -E LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH -E PATH=$KB_BIN:$DEPLOY_DIR/bin:$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
