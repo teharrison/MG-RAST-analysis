@@ -58,5 +58,5 @@ chown -R ipython:ipython /mnt/notebook
 
 # start notebook
 /kb/deployment/services/analysis_book/stop_service
-/kb/deployment/services/analysis_book/start_service $SHOCK_USER $SHOCK_SERVER
+/kb/deployment/services/analysis_book/start_service -u $SHOCK_USER -s $SHOCK_SERVER
 
