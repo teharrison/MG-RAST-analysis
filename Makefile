@@ -40,11 +40,8 @@ deploy-client: build-client
 	echo "deploying client ..."
 	mkdir -p $(SERVICE_DIR)/www
 	cp Retina/communities.html $(SERVICE_DIR)/www/.
-	cp Retina/nb_dashboard_splash.html $(SERVICE_DIR)/www/.
-	cp Retina/mgoverview_splash.html $(SERVICE_DIR)/www/.
-	cp Retina/wizard_splash.html $(SERVICE_DIR)/www/.
-	cp Retina/data_uploader_splash.html $(SERVICE_DIR)/www/.
-	cp Retina/nb_dashboard.html $(SERVICE_DIR)/www/.
+	cp Retina/*_splash.html $(SERVICE_DIR)/www/.
+	cp Retina/analysis_builder.html $(SERVICE_DIR)/www/.
 	cp Retina/mgoverview.html $(SERVICE_DIR)/www/.
 	cp Retina/wizard.html $(SERVICE_DIR)/www/.
 	cp -R Retina/css $(SERVICE_DIR)/www/.
@@ -55,6 +52,7 @@ deploy-client: build-client
 	cp -R Retina/renderers $(SERVICE_DIR)/www/.
 	cp -R Retina/widgets $(SERVICE_DIR)/www/.
 	-ln -s $(SERVICE_DIR)/www/communities.html $(SERVICE_DIR)/www/index.html
+	-ln -s $(SERVICE_DIR)/www/analysis_builder_splash.html $(SERVICE_DIR)/www/nb_dashboard_splash.html
 	cp nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
