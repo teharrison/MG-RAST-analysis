@@ -51,8 +51,8 @@ deploy-client: build-client
 	cp -R Retina/js $(SERVICE_DIR)/www/.
 	cp -R Retina/renderers $(SERVICE_DIR)/www/.
 	cp -R Retina/widgets $(SERVICE_DIR)/www/.
-	-ln -s $(SERVICE_DIR)/www/communities.html $(SERVICE_DIR)/www/index.html
-	-ln -s $(SERVICE_DIR)/www/analysis_builder_splash.html $(SERVICE_DIR)/www/nb_dashboard_splash.html
+	-ln -s $(SERVICE_DIR)/www/communities.html index.html
+	-ln -s $(SERVICE_DIR)/www/analysis_builder_splash.html nb_dashboard_splash.html
 	cp nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
