@@ -1,18 +1,21 @@
 #!/bin/bash
 
+HELP=0
 SHOCK_USER='public'
-SHOCK_URL='http://140.221.84.125:8000'
+SHOCK_SERVER='http://140.221.84.125:8000'
 
-if [ -n "$1" ]; then
-    if [[ "$1" == *"-h"* ]]; then
-        echo "Usage: start_service SHOCK_USER SHOCK_URL"
-        exit
-    else
-        SHOCK_USER=$1
-    fi
-fi
-if [ -n "$2" ]; then
-    SHOCK_URL=$2
+while getopts hu:s: option; do
+    case "${option}"
+	    in
+	    h) HELP=1;;
+	    u) SHOCK_USER=${OPTARG};;
+	    s) SHOCK_SERVER=${OPTARG};;
+    esac
+done
+
+if [ $HELP -eq 1 ]; then
+    echo "Usage: start_service [-h] -u SHOCK_USER -s SHOCK_SERVER"
+    exit
 fi
 
 source /kb/deployment/user-env.sh
@@ -25,9 +28,9 @@ IPY_PATH=`which ipython`
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 PRE_PYTHON="import biokbase; import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant"
-SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_URL --ShockNotebookManager.shock_user=$SHOCK_USER"
+SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.shock_user=$SHOCK_USER"
 
-if [[ $SHOCK_URL == *"local"* ]]; then
+if [[ $SHOCK_SERVER == "local" ]]; then
     SHOCK_CONFIG=""
 fi
 
