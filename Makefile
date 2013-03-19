@@ -24,7 +24,11 @@ build-libs:
 	./clean-ipython.sh
 	git submodule init ipython
 	git submodule update ipython
-	cd ipython; git pull origin master; python ./setup.py install
+	cd ipython; git pull origin master
+	cp custom/custom.js ipython/IPython/frontend/html/notebook/static/js/custom.js
+	cp custom/custom.css ipython/IPython/frontend/html/notebook/static/css/custom.css
+	cp custom/notebook.html ipython/IPython/frontend/html/notebook/templates/notebook.html
+	python ipython/setup.py install
 	git submodule init ipy-mkmq
 	git submodule update ipy-mkmq
 	cd ipy-mkmq; git pull origin master; python ./setup.py install
@@ -53,7 +57,7 @@ deploy-client: build-client
 	cp -R Retina/widgets $(SERVICE_DIR)/www/.
 	-ln -s communities.html $(SERVICE_DIR)/www/index.html
 	-ln -s analysis_builder_splash.html $(SERVICE_DIR)/www/nb_dashboard_splash.html
-	cp nginx.cfg /etc/nginx/sites-available/default
+	cp conf/nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
 	/etc/init.d/nginx force-reload
