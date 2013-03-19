@@ -13,6 +13,7 @@ build: build-client build-server
 
 build-client:
 	echo "building client libs ..."
+	-rm -rf Retina
 	git submodule init Retina
 	git submodule update Retina
 	cd Retina; git pull origin master
@@ -22,6 +23,7 @@ build-server: build-libs add-user
 build-libs:
 	echo "building server libs ..."
 	./clean-ipython.sh
+	-rm -rf ipython
 	git submodule init ipython
 	git submodule update ipython
 	cd ipython; git pull origin master
@@ -29,6 +31,7 @@ build-libs:
 	cp custom/custom.css ipython/IPython/frontend/html/notebook/static/css/custom.css
 	cp custom/notebook.html ipython/IPython/frontend/html/notebook/templates/notebook.html
 	cd ipython; python ./setup.py install
+	-rm -rf ipy-mkmq
 	git submodule init ipy-mkmq
 	git submodule update ipy-mkmq
 	cd ipy-mkmq; git pull origin master; python ./setup.py install
