@@ -7,9 +7,8 @@ This will always be an empty file in IPython
 */
 
 // hide header and toolbar-buttons
-jQuery('div#header').toggle();
-IPython.toolbar.toggle();
-IPython.layout_manager.do_resize();
+setTimeout(function(){document.getElementById("header").style.display="none";}, 200);
+document.getElementById("maintoolbar").style.display="none";
 
 // receive messages sent from other frames
 window.addEventListener("message", receiveMessage, false);
