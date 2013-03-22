@@ -45,6 +45,7 @@ deploy: deploy-client deploy-server
 
 deploy-client: build-client
 	echo "deploying client ..."
+	-rm -rf $(SERVICE_DIR)/www
 	mkdir -p $(SERVICE_DIR)/www
 	cp Retina/communities.html $(SERVICE_DIR)/www/.
 	cp Retina/*_splash.html $(SERVICE_DIR)/www/.
