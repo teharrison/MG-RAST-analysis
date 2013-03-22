@@ -11,8 +11,8 @@ if [ -s test/header.txt ]; then
     rm test/header.txt
 fi
 
-if [ $PASS ]; then
+if [ $PASS == 1 ]; then
     echo "$NAME passed all tests."
 else
-    echo "$name is not running. Make sure analysis_book is deployed and service is running."
+    echo "$NAME is not running. Make sure analysis_book is deployed, nginx is running, and service is running."
 fi
