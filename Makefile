@@ -7,7 +7,7 @@ IPY_USER = ipython
 HAS_USER := $(shell grep -c '^$(IPY_USER):' /etc/passwd)
 
 default:
-	echo "everything look good?"
+	echo "nothing to do for default make"
 
 build: build-client build-server
 
@@ -96,13 +96,15 @@ deploy-docs:
 	cp -R doc/* $(DOC_DIR)/.
 	cp ipy-mkmq/README.md $(DOC_DIR)/ipy-mkmq.README
 
-test: test-server test-scripts test-client
+test: test-scripts test-service test-client
 
 test-client:
-	echo "No client testt exists"
+	echo "testing client ..."
+	test/test_web.sh localhost/analysis_builder.html client
 
 test-scripts:
 	echo "No scripts to test"
 
-test-server:
-	echo "No server test exists"
+test-service:
+	echo "testing service ..."
+	test/test_web.sh localhost:7051 service
