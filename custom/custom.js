@@ -8,7 +8,10 @@ This will always be an empty file in IPython
 
 // hide header and toolbar-buttons
 setTimeout(function(){document.getElementById("header").style.display="none";}, 200);
-document.getElementById("maintoolbar").style.display="none";
+var mtb = document.getElementById("maintoolbar");
+if (mtb) {
+    mtb.style.display="none";
+}
 
 // receive messages sent from other frames
 window.addEventListener("message", receiveMessage, false);
