@@ -1,16 +1,18 @@
 #!/bin/bash                                                                                                                                             
 
 HELP=0
+NGINX=0
 SHOCK_USER='public'
 SHOCK_SERVER='http://140.221.84.125:8000'
 BUILD_MODE='none'
 DEV_DIR=/kb/dev_container
 
 # get args
-while getopts hu:s:b: option; do
+while getopts hnu:s:b: option; do
     case "${option}"
 	    in
 	    h) HELP=1;;
+	    n) NGINX=1;;
 	    u) SHOCK_USER=${OPTARG};;
 	    s) SHOCK_SERVER=${OPTARG};;
 	    b) BUILD_MODE=${OPTARG};;
@@ -19,7 +21,7 @@ done
 
 # help
 if [ $HELP -eq 1 ]; then
-    echo "Usage: init-kbnb.sh [-h] -u SHOCK_USER -s SHOCK_SERVER -b BUILD_MODE(none|ipython|all)"
+    echo "Usage: init-kbnb.sh [-h -n] -u SHOCK_USER -s SHOCK_SERVER -b BUILD_MODE(none|ipython|all)"
     exit
 fi
 
@@ -48,8 +50,10 @@ if [ $BUILD_MODE == 'ipython' ]; then
     make deploy-server
 fi
 
-# we don't want nginx running
-/etc/init.d/nginx stop
+# default - we don't want nginx running
+if [ $NGINX -eq 0 ]; then
+    /etc/init.d/nginx stop
+fi
 
 # place notebook dir in /mnt
 mv /kb/deployment/services/analysis_book/notebook /mnt/notebook
