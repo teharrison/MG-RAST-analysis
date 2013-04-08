@@ -29,7 +29,6 @@ build-libs:
 	cp custom/custom.js ipython/IPython/frontend/html/notebook/static/js/custom.js
 	cp custom/custom.css ipython/IPython/frontend/html/notebook/static/css/custom.css
 	cp custom/notebook.html ipython/IPython/frontend/html/notebook/templates/notebook.html
-	cp custom/shocknbmanager.py ipython/IPython/frontend/html/notebook/shocknbmanager.py
 	cd ipython; python ./setup.py install
 	-rm -rf ipy-mkmq
 	git submodule init ipy-mkmq

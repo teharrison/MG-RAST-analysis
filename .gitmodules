@@ -4,3 +4,6 @@
 [submodule "Retina"]
 	path = Retina
 	url = git://github.com/MG-RAST/Retina.git
+[submodule "ipython"]
+	path = ipython
+	url = git://github.com/teharrison/ipython.git
