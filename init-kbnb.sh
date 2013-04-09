@@ -33,11 +33,13 @@ if [ $BUILD_MODE == 'all' ]; then
     cd $DEV_DIR/modules
     # update repos
     for M in *; do
+        echo "updating $M module"
         pushd $M
         git pull origin master
         popd
     done
     # make deploy
+    echo "deploying all modules"
     cd $DEV_DIR
     make
     make deploy
@@ -45,6 +47,7 @@ fi
 
 # re-build just analysis_book
 if [ $BUILD_MODE == 'ipython' ]; then
+    echo "updating and deploying analysis_book module"
     cd $DEV_DIR/modules/analysis_book
     git pull origin master
     make deploy-server
@@ -52,15 +55,20 @@ fi
 
 # default - we don't want nginx running
 if [ $NGINX -eq 0 ]; then
+    echo "server mode - disable nginx"
     /etc/init.d/nginx stop
 fi
 
 # place notebook dir in /mnt
-mv /kb/deployment/services/analysis_book/notebook /mnt/notebook
-ln -s /mnt/notebook /kb/deployment/services/analysis_book/notebook
-chown -R ipython:ipython /mnt/notebook
+if [ ! -d /mnt/notebook ]; then
+    echo "set up notebook dir"
+    mv /kb/deployment/services/analysis_book/notebook /mnt/notebook
+    ln -s /mnt/notebook /kb/deployment/services/analysis_book/notebook
+    chown -R ipython:ipython /mnt/notebook
+fi
 
 # start notebook
+echo "start analysis_book service"
 /kb/deployment/services/analysis_book/stop_service
 sleep 1
 /kb/deployment/services/analysis_book/start_service -u $SHOCK_USER -s $SHOCK_SERVER
