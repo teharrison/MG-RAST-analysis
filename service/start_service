@@ -1,20 +1,28 @@
 #!/bin/bash
 
 HELP=0
-SHOCK_USER='public'
-SHOCK_SERVER='http://140.221.84.125:8000'
+USER_NAME=''
+USER_PASSWD=''
+USER_TOKEN=''
+IPYNB_TOKEN=''
+SHOCK_AUTH='globus'
+SHOCK_SERVER='http://140.221.84.144:8000'
 
-while getopts hu:s: option; do
+while getopts hn:p:u:i:a:s: option; do
     case "${option}"
-	    in
-	    h) HELP=1;;
-	    u) SHOCK_USER=${OPTARG};;
-	    s) SHOCK_SERVER=${OPTARG};;
+            in
+            h) HELP=1;;
+            n) USER_NAME=${OPTARG};;
+            p) USER_PASSWD=${OPTARG};;
+            u) USER_TOKEN=${OPTARG};;
+            i) IPYNB_TOKEN=${OPTARG};;
+            a) SHOCK_AUTH=${OPTARG};;
+            s) SHOCK_SERVER=${OPTARG};;
     esac
 done
 
 if [ $HELP -eq 1 ]; then
-    echo "Usage: start_service [-h] -u SHOCK_USER -s SHOCK_SERVER"
+    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -u USER_TOKEN -i IPYNB_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
     exit
 fi
 
@@ -29,10 +37,20 @@ PATH=$KB_RUNTIME/sbin:$PATH
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 PRE_PYTHON="import biokbase; import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant; from ipyMKMQ.genome import get_genome_set, Genome"
-SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.shock_user=$SHOCK_USER"
 
-if [[ $SHOCK_SERVER == "local" ]]; then
+
+SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.shock_auth=$SHOCK_AUTH"
+if [ "$SHOCK_SERVER" == "local" ]; then
     SHOCK_CONFIG=""
+elif [ -n "$USER_NAME" ] && [ -n "$USER_PASSWD" ] && [ "$SHOCK_AUTH" == "basic" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_name=$USER_NAME --ShockNotebookManager.user_passwd=$USER_PASSWD"
+elif [ -n "$USER_TOKEN" ] && [ -n "$IPYNB_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=\"$USER_TOKEN\" --ShockNotebookManager.ipynb_token=\"$IPYNB_TOKEN\""
+elif [ -n "$IPYNB_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.ipynb_token=\"$IPYNB_TOKEN\""
+else
+    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'globus' include IPYNB_TOKEN and optionally include USER_TOKEN if running in multi-user Shock."
+    exit 1
 fi
 
 daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=$R_HOME -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E PYTHONPATH=$PYTHONPATH -E PATH=$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
