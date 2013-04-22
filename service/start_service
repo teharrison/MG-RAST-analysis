@@ -4,25 +4,23 @@ HELP=0
 USER_NAME=''
 USER_PASSWD=''
 USER_TOKEN=''
-IPYNB_TOKEN=''
 SHOCK_AUTH='globus'
 SHOCK_SERVER='http://140.221.84.144:8000'
 
-while getopts hn:p:u:i:a:s: option; do
+while getopts hn:p:t:a:s: option; do
     case "${option}"
             in
             h) HELP=1;;
             n) USER_NAME=${OPTARG};;
             p) USER_PASSWD=${OPTARG};;
-            u) USER_TOKEN=${OPTARG};;
-            i) IPYNB_TOKEN=${OPTARG};;
+            t) USER_TOKEN=${OPTARG};;
             a) SHOCK_AUTH=${OPTARG};;
             s) SHOCK_SERVER=${OPTARG};;
     esac
 done
 
 if [ $HELP -eq 1 ]; then
-    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -u USER_TOKEN -i IPYNB_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
+    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -t USER_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
     exit
 fi
 
@@ -44,12 +42,10 @@ if [ "$SHOCK_SERVER" == "local" ]; then
     SHOCK_CONFIG=""
 elif [ -n "$USER_NAME" ] && [ -n "$USER_PASSWD" ] && [ "$SHOCK_AUTH" == "basic" ]; then
     SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_name=$USER_NAME --ShockNotebookManager.user_passwd=$USER_PASSWD"
-elif [ -n "$USER_TOKEN" ] && [ -n "$IPYNB_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=\"$USER_TOKEN\" --ShockNotebookManager.ipynb_token=\"$IPYNB_TOKEN\""
-elif [ -n "$IPYNB_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.ipynb_token=\"$IPYNB_TOKEN\""
+elif [ -n "$USER_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=\"$USER_TOKEN\""
 else
-    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'globus' include IPYNB_TOKEN and optionally include USER_TOKEN if running in multi-user Shock."
+    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'globus' include USER_TOKEN."
     exit 1
 fi
 
