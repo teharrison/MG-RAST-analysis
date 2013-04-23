@@ -1,13 +1,18 @@
 #!/bin/bash
 
+PORT='7051'
 SERVICE=analysis_book
 SERVICE_DIR=/kb/deployment/services/$SERVICE
 
-if [ ! -f $SERVICE_DIR/service.pid ]; then
-   echo "No pid file $SERVICE_DIR/service.pid found for service $SERVICE" 1>&2
+if [ $# -gt 0 ]; then
+    PORT=$1
+fi
+
+if [ ! -f $SERVICE_DIR/service.$PORT.pid ]; then
+   echo "No pid file $SERVICE_DIR/service.$PORT.pid found for service $SERVICE" 1>&2
    exit 1
 fi
 
-PID=`cat $SERVICE_DIR/service.pid`
+PID=`cat $SERVICE_DIR/service.$PORT.pid`
 kill $PID
-rm $SERVICE_DIR/service.pid
+rm $SERVICE_DIR/service.$PORT.pid

@@ -4,6 +4,7 @@ HELP=0
 NGINX=0
 USER_TOKEN=''
 SHOCK_SERVER='http://140.221.84.144:8000'
+PORT='7051'
 BUILD_MODE='none'
 DEV_DIR=/kb/dev_container
 
@@ -15,13 +16,14 @@ while getopts hnu:s:b: option; do
 	    n) NGINX=1;;
 	    u) USER_TOKEN=${OPTARG};;
 	    s) SHOCK_SERVER=${OPTARG};;
+	    p) PORT=${OPTARG};;
 	    b) BUILD_MODE=${OPTARG};;
     esac
 done
 
 # help
 if [ $HELP -eq 1 ]; then
-    echo "Usage: init-kbnb.sh [-h -n] -t USER_TOKEN -s SHOCK_SERVER -b BUILD_MODE(none|ipython|all)"
+    echo "Usage: init-kbnb.sh [-h -n] -t USER_TOKEN -s SHOCK_SERVER -p PORT -b BUILD_MODE(none|ipython|all)"
     exit
 fi
 
@@ -71,5 +73,5 @@ fi
 echo "start analysis_book service"
 /kb/deployment/services/analysis_book/stop_service
 sleep 1
-/kb/deployment/services/analysis_book/start_service -a 'globus' -t "$USER_TOKEN" -s "$SHOCK_SERVER"
+/kb/deployment/services/analysis_book/start_service -a 'globus' -t "$USER_TOKEN" -s "$SHOCK_SERVER" -i $PORT
 

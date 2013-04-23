@@ -6,8 +6,9 @@ USER_PASSWD=''
 USER_TOKEN=''
 SHOCK_AUTH='globus'
 SHOCK_SERVER='http://140.221.84.144:8000'
+IPY_PORT='7051'
 
-while getopts hn:p:t:a:s: option; do
+while getopts hn:p:t:a:s:i: option; do
     case "${option}"
             in
             h) HELP=1;;
@@ -16,11 +17,12 @@ while getopts hn:p:t:a:s: option; do
             t) USER_TOKEN=${OPTARG};;
             a) SHOCK_AUTH=${OPTARG};;
             s) SHOCK_SERVER=${OPTARG};;
+            i) IPY_PORT=${OPTARG};;
     esac
 done
 
 if [ $HELP -eq 1 ]; then
-    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -t USER_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
+    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -t USER_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER -i IPY_PORT"
     exit
 fi
 
@@ -49,4 +51,9 @@ else
     exit 1
 fi
 
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=$R_HOME -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E PYTHONPATH=$PYTHONPATH -E PATH=$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
+if [ ! -d $SERVICE_DIR/notebook/$IPY_PORT ]; then
+    mkdir -p $SERVICE_DIR/notebook/$IPY_PORT
+    chown -R ipython:ipython $SERVICE_DIR/notebook/$IPY_PORT
+fi
+
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook/$IPY_PORT -p $SERVICE_DIR/service.$IPY_PORT.pid -e $SERVICE_DIR/log/start_service.$IPY_PORT.log -o $SERVICE_DIR/log/start_service.$IPY_PORT.log -E R_HOME=$R_HOME -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E PYTHONPATH=$PYTHONPATH -E PATH=$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=$IPY_PORT --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook/$IPY_PORT --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
