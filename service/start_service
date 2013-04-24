@@ -47,7 +47,7 @@ if [ "$SHOCK_SERVER" == "local" ]; then
 elif [ -n "$USER_NAME" ] && [ -n "$USER_PASSWD" ] && [ "$SHOCK_AUTH" == "basic" ]; then
     SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_name=$USER_NAME --ShockNotebookManager.user_passwd=$USER_PASSWD"
 elif [ -n "$USER_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=\"$USER_TOKEN\""
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=$USER_TOKEN"
 else
     echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'globus' include USER_TOKEN."
     exit 1
