@@ -8,12 +8,12 @@ BUILD_MODE='none'
 DEV_DIR=/kb/dev_container
 
 # get args
-while getopts hnu:s:b: option; do
+while getopts hnt:s:b: option; do
     case "${option}"
 	    in
 	    h) HELP=1;;
 	    n) NGINX=1;;
-	    u) USER_TOKEN=${OPTARG};;
+	    t) USER_TOKEN=${OPTARG};;
 	    s) SHOCK_SERVER=${OPTARG};;
 	    b) BUILD_MODE=${OPTARG};;
     esac
