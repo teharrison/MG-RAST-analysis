@@ -69,6 +69,8 @@ deploy-server: build-server deploy-libs deploy-scripts deploy-docs
 	echo "deploying service ..."
 	mkdir -p $(SERVICE_DIR)/ipython
 	mkdir -p $(SERVICE_DIR)/log
+	mkdir -p $(SERVICE_DIR)/conf
+	cp conf/ipython-cfg.sh $(SERVICE_DIR)/conf/ipython-cfg.sh
 	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/ipython
 	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/notebook
 	chown -R $(IPY_USER):$(IPY_USER) $(SERVICE_DIR)/log

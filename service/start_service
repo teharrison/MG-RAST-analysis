@@ -1,27 +1,31 @@
 #!/bin/bash
 
+source conf/ipython-cfg.sh
+
 HELP=0
 USER_NAME=''
 USER_PASSWD=''
 USER_TOKEN=''
-SHOCK_AUTH='globus'
-SHOCK_SERVER='http://140.221.84.144:8000'
 
 while getopts hn:p:t:a:s: option; do
     case "${option}"
-            in
-            h) HELP=1;;
-            n) USER_NAME=${OPTARG};;
-            p) USER_PASSWD=${OPTARG};;
-            t) USER_TOKEN=${OPTARG};;
-            a) SHOCK_AUTH=${OPTARG};;
-            s) SHOCK_SERVER=${OPTARG};;
+        in
+        h) HELP=1;;
+        n) USER_NAME=${OPTARG};;
+        p) USER_PASSWD=${OPTARG};;
+        t) USER_TOKEN=${OPTARG};;
+        a) SHOCK_AUTH=${OPTARG};;
+        s) SHOCK_SERVER=${OPTARG};;
     esac
 done
 
 if [ $HELP -eq 1 ]; then
     echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -t USER_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
     exit
+fi
+
+if [ "$SHOCK_AUTH" == "globus" ] && [ -z "$USER_TOKEN" ]; then
+    USER_TOKEN=`curl -s -H "Authorization: Basic $KBNB_HASH" -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials" | python -c "import sys, json; sys.stdout.write(json.dumps(json.load(sys.stdin)['access_token']))"`
 fi
 
 source /kb/deployment/user-env.sh

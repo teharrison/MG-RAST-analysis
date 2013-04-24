@@ -1,9 +1,10 @@
 #!/bin/bash                                                                                                                                             
 
+source conf/ipython-cfg.sh
+
 HELP=0
 NGINX=0
 USER_TOKEN=''
-SHOCK_SERVER='http://140.221.84.144:8000'
 BUILD_MODE='none'
 DEV_DIR=/kb/dev_container
 
@@ -60,16 +61,16 @@ if [ $NGINX -eq 0 ]; then
 fi
 
 # place notebook dir in /mnt
-if [ ! -d /mnt/notebook ]; then
+if [ ! -d $KBNB_DIR ]; then
     echo "set up notebook dir"
-    mv /kb/deployment/services/analysis_book/notebook /mnt/notebook
-    ln -s /mnt/notebook /kb/deployment/services/analysis_book/notebook
-    chown -R ipython:ipython /mnt/notebook
+    mv /kb/deployment/services/analysis_book/notebook $KBNB_DIR
+    ln -s $KBNB_DIR /kb/deployment/services/analysis_book/notebook
+    chown -R ipython:ipython $KBNB_DIR
 fi
 
 # start notebook
 echo "start analysis_book service"
 /kb/deployment/services/analysis_book/stop_service
 sleep 1
-/kb/deployment/services/analysis_book/start_service -a 'globus' -t "$USER_TOKEN" -s "$SHOCK_SERVER"
+/kb/deployment/services/analysis_book/start_service -a $SHOCK_AUTH -t "$USER_TOKEN" -s "$SHOCK_SERVER"
 
