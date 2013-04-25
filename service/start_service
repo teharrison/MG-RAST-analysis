@@ -38,6 +38,8 @@ IPY_PATH=`which ipython`
 PATH=$KB_RUNTIME/sbin:$PATH
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
+RDP_JAR_PATH=$KB_RUNTIME/lib/rdp_classifier.jar
+QIIME_CONFIG_FP=$KB_RUNTIME/qiime/.qiime_config
 PRE_PYTHON="import biokbase; import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant; from ipyMKMQ.genome import get_genome_set, Genome"
 
 
@@ -53,4 +55,4 @@ else
     exit 1
 fi
 
-daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=$R_HOME -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E PYTHONPATH=$PYTHONPATH -E PATH=$PATH $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
+daemonize -v -u $IPY_USER -c $SERVICE_DIR/notebook -p $SERVICE_DIR/service.pid -e $SERVICE_DIR/log/start_service.log -o $SERVICE_DIR/log/start_service.log -E R_HOME=$R_HOME -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E PYTHONPATH=$PYTHONPATH -E PATH=$PATH -E RDP_JAR_PATH=$RDP_JAR_PATH -E QIIME_CONFIG_FP=$QIIME_CONFIG_FP $IPY_PATH notebook --user=$IPY_USER --pylab=inline --no-browser --port=7051 --ip='*' --ipython-dir=$SERVICE_DIR/ipython --notebook-dir=$SERVICE_DIR/notebook --NotebookApp.verbose_crash=True $SHOCK_CONFIG -c "${PRE_PYTHON}"
