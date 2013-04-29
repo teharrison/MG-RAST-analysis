@@ -13,6 +13,12 @@ if (mtb) {
     mtb.style.display="none";
 }
 
+// hide built-in dashboard
+var tabdiv = document.getElementById("tabs");
+if (tabdiv) {
+    tabdiv.style.display="none";
+}
+
 // receive messages sent from other frames
 window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
