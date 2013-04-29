@@ -1,6 +1,11 @@
 #!/bin/bash
 
-source conf/ipython-cfg.sh
+source /kb/deployment/user-env.sh
+
+SERVICE=analysis_book
+SERVICE_DIR=$KB_TOP/services/$SERVICE
+
+source $SERVICE_DIR/conf/ipython-cfg.sh
 
 HELP=0
 USER_NAME=''
@@ -28,13 +33,8 @@ if [ "$SHOCK_AUTH" == "globus" ] && [ -z "$USER_TOKEN" ]; then
     USER_TOKEN=`curl -s -H "Authorization: Basic $KBNB_HASH" -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials" | python -c "import sys, json; sys.stdout.write(json.dumps(json.load(sys.stdin)['access_token']))"`
 fi
 
-source /kb/deployment/user-env.sh
-
-SERVICE=analysis_book
-SERVICE_DIR=$KB_TOP/services/$SERVICE
 IPY_USER=ipython
 IPY_PATH=`which ipython`
-
 PATH=$KB_RUNTIME/sbin:$PATH
 R_HOME=/usr/local/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
