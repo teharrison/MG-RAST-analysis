@@ -29,8 +29,8 @@ if [ $HELP -eq 1 ]; then
     exit
 fi
 
-if [ "$SHOCK_AUTH" == "globus" ] && [ -z "$USER_TOKEN" ]; then
-    USER_TOKEN=`curl -s -H "Authorization: Basic $KBNB_HASH" -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials" | python -c "import sys, json; sys.stdout.write(json.dumps(json.load(sys.stdin)['access_token']))"`
+if [ "$SHOCK_AUTH" == "oauth" ] && [ -z "$USER_TOKEN" ]; then
+    USER_TOKEN=`curl -s -H "Authorization: Basic $KBNB_HASH" -X POST "$OAUTH_TOKEN_URL" | python -c "import sys, json; sys.stdout.write(json.dumps(json.load(sys.stdin)['access_token']))"`
 fi
 
 IPY_USER=ipython
@@ -49,10 +49,10 @@ if [ "$SHOCK_SERVER" == "local" ]; then
     SHOCK_CONFIG=""
 elif [ -n "$USER_NAME" ] && [ -n "$USER_PASSWD" ] && [ "$SHOCK_AUTH" == "basic" ]; then
     SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_name=$USER_NAME --ShockNotebookManager.user_passwd=$USER_PASSWD"
-elif [ -n "$USER_TOKEN" ] && [ "$SHOCK_AUTH" == "globus" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=$USER_TOKEN"
+elif [ -n "$USER_TOKEN" ] && [ "$SHOCK_AUTH" == "oauth" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=$USER_TOKEN --ShockNotebookManager.oauth_url=$OAUTH_USER_URL"
 else
-    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'globus' include USER_TOKEN."
+    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'oauth' include USER_TOKEN."
     exit 1
 fi
 

@@ -73,4 +73,3 @@ echo "start analysis_book service"
 /kb/deployment/services/analysis_book/stop_service
 sleep 1
 /kb/deployment/services/analysis_book/start_service -a $SHOCK_AUTH -t "$USER_TOKEN" -s "$SHOCK_SERVER"
-
