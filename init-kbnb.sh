@@ -7,6 +7,7 @@ NGINX=0
 USER_TOKEN=''
 BUILD_MODE='none'
 DEV_DIR=/kb/dev_container
+DEP_DIR=/kb/deployment/services/analysis_book
 
 # get args
 while getopts hnt:s:b: option; do
@@ -63,13 +64,13 @@ fi
 # place notebook dir in /mnt
 if [ ! -d $KBNB_DIR ]; then
     echo "set up notebook dir"
-    mv /kb/deployment/services/analysis_book/notebook $KBNB_DIR
-    ln -s $KBNB_DIR /kb/deployment/services/analysis_book/notebook
+    mv $DEP_DIR/notebook $KBNB_DIR
+    ln -s $KBNB_DIR $DEP_DIR/notebook
     chown -R ipython:ipython $KBNB_DIR
 fi
 
 # start notebook
 echo "start analysis_book service"
-/kb/deployment/services/analysis_book/stop_service
+$DEP_DIR/stop_service
 sleep 1
-/kb/deployment/services/analysis_book/start_service -a $SHOCK_AUTH -t "$USER_TOKEN" -s "$SHOCK_SERVER"
+$DEP_DIR/start_service -a $SHOCK_AUTH -t "$USER_TOKEN" -s "$SHOCK_SERVER"
