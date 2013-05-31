@@ -56,6 +56,7 @@ if [ $BUILD_MODE == 'ipython' ]; then
     echo "updating and deploying analysis_book module"
     cd $MOD_DIR/$SERVICE
     git pull origin master
+    make clean
     make deploy-server
 fi
 
