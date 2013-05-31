@@ -54,7 +54,7 @@ fi
 # re-build just analysis_book - purge old install
 if [ $BUILD_MODE == 'ipython' ]; then
     echo "updating and deploying analysis_book module"
-    killall ipython
+    killall ipython 2>&1
     cd $MOD_DIR/$SERVICE
     git pull -q origin master
     make clean

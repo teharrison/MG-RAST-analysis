@@ -9,5 +9,5 @@ if [ ! -f $SERVICE_DIR/service.pid ]; then
 fi
 
 PID=`cat $SERVICE_DIR/service.pid`
-kill $PID
+kill $PID 2>&1
 rm $SERVICE_DIR/service.pid
