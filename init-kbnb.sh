@@ -1,15 +1,19 @@
 #!/bin/bash                                                                                                                                             
 
-source conf/ipython-cfg.sh
+SERVICE=analysis_book
+DEV_DIR=/kb/dev_container
+MOD_DIR=$DEV_DIR/modules
+DEP_DIR=/kb/deployment/services/$SERVICE
 
+# this config
+source $MOD_DIR/$SERVICE/conf/ipython-cfg.sh
+
+# get args
 HELP=0
 NGINX=0
 USER_TOKEN=''
 BUILD_MODE='none'
-DEV_DIR=/kb/dev_container
-DEP_DIR=/kb/deployment/services/analysis_book
 
-# get args
 while getopts hnt:s:b: option; do
     case "${option}"
 	    in
@@ -32,7 +36,7 @@ source $DEV_DIR/user-env.sh
 
 # re-build kbase modules
 if [ $BUILD_MODE == 'all' ]; then
-    cd $DEV_DIR/modules
+    cd $MOD_DIR
     # update repos
     for M in *; do
         echo "updating $M module"
@@ -50,7 +54,7 @@ fi
 # re-build just analysis_book
 if [ $BUILD_MODE == 'ipython' ]; then
     echo "updating and deploying analysis_book module"
-    cd $DEV_DIR/modules/analysis_book
+    cd $MOD_DIR/$SERVICE
     git pull origin master
     make deploy-server
 fi
