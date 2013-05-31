@@ -41,7 +41,7 @@ if [ $BUILD_MODE == 'all' ]; then
     for M in *; do
         echo "updating $M module"
         pushd $M
-        git pull origin master
+        git pull -q origin master
         popd
     done
     # make deploy
@@ -51,11 +51,12 @@ if [ $BUILD_MODE == 'all' ]; then
     make deploy
 fi
 
-# re-build just analysis_book
+# re-build just analysis_book - purge old install
 if [ $BUILD_MODE == 'ipython' ]; then
     echo "updating and deploying analysis_book module"
+    killall ipython
     cd $MOD_DIR/$SERVICE
-    git pull origin master
+    git pull -q origin master
     make clean
     make deploy-server
 fi

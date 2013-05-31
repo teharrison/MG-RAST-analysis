@@ -25,7 +25,7 @@ build-client:
 	-rm -rf Retina
 	git submodule init Retina
 	git submodule update Retina
-	cd Retina; git pull origin master
+	cd Retina; git pull -q origin master
 
 build-server: build-libs add-user
 
@@ -42,7 +42,7 @@ build-libs:
 	-rm -rf ipy-mkmq
 	git submodule init ipy-mkmq
 	git submodule update ipy-mkmq
-	cd ipy-mkmq; git pull origin master; python ./setup.py install
+	cd ipy-mkmq; git pull -q origin master; python ./setup.py install
 	./install-dependencies.sh
 
 add-user:
