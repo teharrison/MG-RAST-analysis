@@ -43,7 +43,6 @@ build-libs:
 	git submodule init ipy-mkmq
 	git submodule update ipy-mkmq
 	cd ipy-mkmq; git pull -q origin master; python ./setup.py install
-	./install-dependencies.sh
 
 add-user:
 	echo "adding user $(IPY_USER) ..."
