@@ -8,28 +8,23 @@ SERVICE_DIR=$KB_TOP/services/$SERVICE
 source $SERVICE_DIR/conf/ipython-cfg.sh
 
 HELP=0
-USER_NAME=''
-USER_PASSWD=''
 USER_TOKEN=''
 
-while getopts hn:p:t:a:s: option; do
+while getopts ht:s: option; do
     case "${option}"
         in
         h) HELP=1;;
-        n) USER_NAME=${OPTARG};;
-        p) USER_PASSWD=${OPTARG};;
         t) USER_TOKEN=${OPTARG};;
-        a) SHOCK_AUTH=${OPTARG};;
         s) SHOCK_SERVER=${OPTARG};;
     esac
 done
 
 if [ $HELP -eq 1 ]; then
-    echo "Usage: start_service [-h] -n USER_NAME -p USER_PASSWD -t USER_TOKEN -a SHOCK_AUTH -s SHOCK_SERVER"
+    echo "Usage: start_service [-h] -t USER_TOKEN -s SHOCK_SERVER"
     exit
 fi
 
-if [ "$SHOCK_AUTH" == "oauth" ] && [ -z "$USER_TOKEN" ]; then
+if [ -z "$USER_TOKEN" ]; then
     USER_TOKEN=`curl -s -H "Authorization: Basic $KBNB_HASH" -X POST "$OAUTH_TOKEN_URL" | python -c "import sys, json; sys.stdout.write(json.dumps(json.load(sys.stdin)['access_token']))"`
 fi
 
@@ -43,16 +38,13 @@ RDP_JAR_PATH=$QIIME_DIR/rdp_classifier_2.2/rdp_classifier-2.2.jar
 QIIME_CONFIG_FP=$QIIME_DIR/.qiime_config
 PRE_PYTHON="import biokbase; import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant; from ipyMKMQ.genome import get_genome_set, Genome"
 
-
-SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.shock_auth=$SHOCK_AUTH"
+SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.frontend.html.notebook.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.oauth_url=$OAUTH_USER_URL"
 if [ "$SHOCK_SERVER" == "local" ]; then
     SHOCK_CONFIG=""
-elif [ -n "$USER_NAME" ] && [ -n "$USER_PASSWD" ] && [ "$SHOCK_AUTH" == "basic" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_name=$USER_NAME --ShockNotebookManager.user_passwd=$USER_PASSWD"
-elif [ -n "$USER_TOKEN" ] && [ "$SHOCK_AUTH" == "oauth" ]; then
-    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=$USER_TOKEN --ShockNotebookManager.oauth_url=$OAUTH_USER_URL"
+elif [ -n "$USER_TOKEN" ]; then
+    SHOCK_CONFIG="$SHOCK_CONFIG --ShockNotebookManager.user_token=$USER_TOKEN"
 else
-    echo "Invalid combination of Shock Auth type and Auth credintals\nIf SHOCK_AUTH is 'basic' include USER_NAME and USER_PASSWD\nIf SHOCK_AUTH is 'oauth' include USER_TOKEN." 1>&2
+    echo "Missing USER_TOKEN for Shock Auth." 1>&2
     exit 1
 fi
 

@@ -79,4 +79,4 @@ fi
 echo "start analysis_book service"
 $DEP_DIR/stop_service
 sleep 1
-$DEP_DIR/start_service -a $SHOCK_AUTH -t "$USER_TOKEN" -s "$SHOCK_SERVER"
+$DEP_DIR/start_service -t "$USER_TOKEN" -s "$SHOCK_SERVER"
