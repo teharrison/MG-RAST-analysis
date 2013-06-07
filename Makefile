@@ -9,14 +9,15 @@ HAS_USER := $(shell grep -c '^$(IPY_USER):' /etc/passwd)
 default:
 	echo "nothing to do for default make"
 
+uninstall: clean
+	-rm -rf $(SERVICE_DIR)
+	-rm -rf /mnt/notebook
+
 clean:
 	./clean-ipython.sh
 	-rm -rf ipython
 	-rm -rf Retina
 	-rm -rf ipy-mkmq
-	-rm -rf daemonize
-	-rm -rf $(SERVICE_DIR)
-	-rm -rf /mnt/notebook
 
 build: build-client build-server
 
