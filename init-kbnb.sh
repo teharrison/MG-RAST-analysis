@@ -39,6 +39,9 @@ if [ $BUILD_MODE == 'all' ]; then
     cd $MOD_DIR
     # update repos
     for M in *; do
+        if [ $M == 'analysis_book' ]; then
+            continue
+        fi
         echo "updating $M module"
         pushd $M
         git pull -q origin master
@@ -52,7 +55,7 @@ if [ $BUILD_MODE == 'all' ]; then
 fi
 
 # re-build just analysis_book - purge old install
-if [ $BUILD_MODE == 'ipython' ]; then
+if [ $BUILD_MODE == 'ipython' ] || [ $BUILD_MODE == 'all' ]; then
     echo "updating and deploying analysis_book module"
     killall ipython 2>&1
     cd $MOD_DIR/$SERVICE
