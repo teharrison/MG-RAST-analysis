@@ -1,7 +1,7 @@
 KBNB: KBase IPython notebook service
 
 `make deploy-server` deploys the ipython notebook server
-`make deploy-client` deploys the web page 'analysis_builder.html' containing the UI and dashboard for running notebooks.
+`make deploy-client` deploys the web page 'index.html' containing the UI and dashboard for running notebooks.
 
 client config files:
 1. (nginx) conf/nginx.cfg is used by Makefile - for configuring nginx 

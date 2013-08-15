@@ -18,6 +18,7 @@ kbapi_common
 KBaseFBAModeling
 kb_model_seed
 kb_seed
+m5nr
 matR
 networks
 ontology_service
