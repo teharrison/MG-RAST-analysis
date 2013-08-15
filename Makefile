@@ -55,11 +55,7 @@ deploy-client: build-client
 	echo "deploying client ..."
 	-rm -rf $(SERVICE_DIR)/www
 	mkdir -p $(SERVICE_DIR)/www
-	cp Retina/communities.html $(SERVICE_DIR)/www/.
-	cp Retina/*_splash.html $(SERVICE_DIR)/www/.
-	cp Retina/analysis_builder.html $(SERVICE_DIR)/www/.
-	cp Retina/mgoverview.html $(SERVICE_DIR)/www/.
-	cp Retina/wizard.html $(SERVICE_DIR)/www/.
+	cp Retina/analysis_builder.html $(SERVICE_DIR)/www/index.html
 	cp -R Retina/css $(SERVICE_DIR)/www/.
 	cp -R Retina/data $(SERVICE_DIR)/www/.
 	cp -R Retina/fonts $(SERVICE_DIR)/www/.
@@ -67,8 +63,6 @@ deploy-client: build-client
 	cp -R Retina/js $(SERVICE_DIR)/www/.
 	cp -R Retina/renderers $(SERVICE_DIR)/www/.
 	cp -R Retina/widgets $(SERVICE_DIR)/www/.
-	-ln -s communities.html $(SERVICE_DIR)/www/index.html
-	-ln -s analysis_builder_splash.html $(SERVICE_DIR)/www/nb_dashboard_splash.html
 	cp conf/nginx.cfg /etc/nginx/sites-available/default
 	echo "restarting nginx ..."
 	/etc/init.d/nginx restart
@@ -111,7 +105,7 @@ test: test-scripts test-service test-client
 
 test-client:
 	echo "testing client ..."
-	test/test_web.sh localhost/analysis_builder.html client
+	test/test_web.sh localhost/index.html client
 
 test-scripts:
 	echo "No scripts to test"
