@@ -1,4 +1,3 @@
-
 KBNB: KBase IPython notebook service
 
 `make deploy-server` deploys the ipython notebook server
