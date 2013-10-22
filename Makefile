@@ -36,9 +36,9 @@ build-libs:
 	-rm -rf ipython
 	git submodule init ipython
 	git submodule update ipython
-	cp custom/custom.js ipython/IPython/frontend/html/notebook/static/js/custom.js
-	cp custom/custom.css ipython/IPython/frontend/html/notebook/static/css/custom.css
-	cp custom/notebook.html ipython/IPython/frontend/html/notebook/templates/notebook.html
+	cp custom/custom.js ipython/IPython/html/static/custom/custom.js
+	cp custom/custom.css ipython/IPython/html/static/custom/custom.css
+	#cp custom/notebook.html ipython/IPython/html/templates/notebook.html
 	cd ipython; python ./setup.py install
 	-rm -rf ipy-mkmq
 	git submodule init ipy-mkmq
