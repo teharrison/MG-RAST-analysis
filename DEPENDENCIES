@@ -13,7 +13,6 @@ genotype_phenotype_api
 idserver
 invocation
 jars
-jnomics
 kbapi_common
 KBaseFBAModeling
 kb_model_seed
