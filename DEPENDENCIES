@@ -1,6 +1,5 @@
 assembly
 auth
-cluster_service
 communities_api
 communities_qc
 dev_container_tools
