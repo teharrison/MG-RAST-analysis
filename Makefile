@@ -39,6 +39,7 @@ build-libs:
 	cp custom/custom.js ipython/IPython/html/static/custom/custom.js
 	cp custom/custom.css ipython/IPython/html/static/custom/custom.css
 	#cp custom/notebook.html ipython/IPython/html/templates/notebook.html
+	echo "gitdir: ../../../../../.git/modules/ipython/modules/IPython/html/static/components" > ipython/IPython/html/static/components/.git
 	cd ipython; python ./setup.py install
 	-rm -rf ipy-mkmq
 	git submodule init ipy-mkmq
