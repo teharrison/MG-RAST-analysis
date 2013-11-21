@@ -31,7 +31,7 @@ fi
 IPY_USER=ipython
 IPY_PATH=`which ipython`
 PATH=$KB_RUNTIME/sbin:$PATH
-R_HOME=/usr/local/lib/R
+R_HOME=/kb/runtime/lib/R
 LD_LIBRARY_PATH=$R_HOME/lib:$LD_LIBRARY_PATH
 QIIME_DIR=$KB_RUNTIME/qiime
 RDP_JAR_PATH=$QIIME_DIR/rdp_classifier_2.2/rdp_classifier-2.2.jar
