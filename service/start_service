@@ -38,7 +38,7 @@ RDP_JAR_PATH=$QIIME_DIR/rdp_classifier_2.2/rdp_classifier-2.2.jar
 QIIME_CONFIG_FP=$QIIME_DIR/.qiime_config
 PRE_PYTHON="import biokbase; import rpy2.robjects as ro; from IPython.core.display import Image, SVG; import pylab; from ipyMKMQ import retina, flotplot, ipyTools, expression, genopheno, networks, ontology; from ipyMKMQ.ipyTools import *; from ipyMKMQ.analysis import get_analysis_set, Analysis, AnalysisSet; from ipyMKMQ.project import Project; from ipyMKMQ.collection import get_collection, Collection; from ipyMKMQ.metagenome import Metagenome; from ipyMKMQ.qc import QC, Drisee, NucleoProfile, Kmer, Rarefaction, merge_drisee_profile; from ipyMKMQ.plant import get_plant_set, Plant; from ipyMKMQ.genome import get_genome_set, Genome"
 
-SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.html.services.notebooks.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER --ShockNotebookManager.oauth_url=$OAUTH_USER_URL"
+SHOCK_CONFIG="--NotebookApp.notebook_manager_class='IPython.html.services.notebooks.shocknbmanager.ShockNotebookManager' --ShockNotebookManager.shock_url=$SHOCK_SERVER"
 if [ "$SHOCK_SERVER" == "local" ]; then
     SHOCK_CONFIG=""
 elif [ -n "$USER_TOKEN" ]; then
