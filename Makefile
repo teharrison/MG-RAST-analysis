@@ -35,7 +35,7 @@ build-libs:
 	./clean-ipython.sh
 	-rm -rf ipython
 	git submodule init ipython
-	git submodule update ipython
+	git submodule update --recursive ipython
 	cp custom/custom.js ipython/IPython/html/static/custom/custom.js
 	cp custom/custom.css ipython/IPython/html/static/custom/custom.css
 	#cp custom/notebook.html ipython/IPython/html/templates/notebook.html
